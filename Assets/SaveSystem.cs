@@ -14,6 +14,8 @@ public class SaveSystem : MonoBehaviour {
     List<GameObject> objectForSave = new List<GameObject>();
     public string test;
 
+    private string saveFileName = "testSave";  //оформить как аргумент в функциях save&load
+
     void Start ()
     {
 
@@ -35,6 +37,8 @@ public class SaveSystem : MonoBehaviour {
 
     private void Save()
     {
+        //string saveFileName = "testSave";
+
         int num = 0;
 
         //и стенки и юниты, всё это объекты...
@@ -42,41 +46,33 @@ public class SaveSystem : MonoBehaviour {
         objectForSave.AddRange(GameObject.FindGameObjectsWithTag("Walls"));
         objectForSave.AddRange(GameObject.FindGameObjectsWithTag("Units"));
 
-        //Чистим папку сохранения... Как только их будет несколько это надо перенести в менеджер сохранений
-        foreach (string file in Directory.GetFiles(Application.persistentDataPath + "/saves/"))
+        //Создаём папку сохранений если её ещё нет
+        if (File.Exists(Application.persistentDataPath + "/saves/") == false)
         {
-            File.Delete(file);
+            Directory.CreateDirectory(Path.GetDirectoryName(Application.persistentDataPath + "/saves/"));
         }
+
         // с е р и а л и з а ц и я объектов
+        ObjectData[] data = new ObjectData[objectForSave.Capacity];
         foreach (GameObject element in objectForSave)
         {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream stream = new FileStream(Application.persistentDataPath + "/saves/object" + num + ".glaz", FileMode.Create);
-
-            ObjectData data = new ObjectData(element);
-
-            bf.Serialize(stream, data);
-            stream.Close();
+            data[num] = new ObjectData(element);           
 
             ++num;
-        }     
-        /*
-        //Сериализация информации об объектах (количество)
-        BinaryFormatter bf2 = new BinaryFormatter();
-        FileStream stream2 = new FileStream(Application.persistentDataPath + "/saves/objects_data.save", FileMode.Create);
+        }
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream stream = new FileStream(Application.persistentDataPath + "/saves/" + saveFileName + ".glaz", FileMode.Create);
 
-        ObjectData oadata = new ObjectData(objectForSave.Capacity);
-
-        bf2.Serialize(stream2, oadata);
-        stream2.Close();
-        */
+        bf.Serialize(stream, data);
+        stream.Close();
     }
 
 
     private void Load()
     {
-        //if (File.Exists(Application.persistentDataPath + "/saves/"))
+        if (File.Exists(Application.persistentDataPath + "/saves/" + saveFileName + ".glaz"))
         {
+            //Очищаем сцену перед загрузкой сохранения
             List<GameObject> objectToDelete = new List<GameObject>();
             objectToDelete.AddRange(GameObject.FindGameObjectsWithTag("Walls"));
             objectToDelete.AddRange(GameObject.FindGameObjectsWithTag("Units"));
@@ -86,18 +82,15 @@ public class SaveSystem : MonoBehaviour {
                 Destroy(o);
             }
 
-            int objects_amount = 0;
-            foreach (string file in Directory.GetFiles(Application.persistentDataPath + "/saves/"))
-            {
-                BinaryFormatter bf = new BinaryFormatter();
-                FileStream stream = new FileStream(Application.persistentDataPath + "/saves/object" + objects_amount + ".glaz", FileMode.Open);
+            //Загрузка
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream stream = new FileStream(Application.persistentDataPath + "/saves/" + saveFileName + ".glaz", FileMode.Open);
 
-                ObjectData data = bf.Deserialize(stream) as ObjectData;
-                stream.Close();
-
-                SpawnOnLoad(data);
-
-                ++objects_amount;
+            ObjectData[] data = bf.Deserialize(stream) as ObjectData[];
+            stream.Close();
+            foreach (ObjectData element in data)
+            {                               
+                SpawnOnLoad(element);
             }
         }
     }
