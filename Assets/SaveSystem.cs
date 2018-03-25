@@ -6,6 +6,8 @@ using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
+using UnityEngine.SceneManagement;
+
 public class SaveSystem : MonoBehaviour {
 
     //private GameObject[] objectForSave;
@@ -14,11 +16,11 @@ public class SaveSystem : MonoBehaviour {
 
     void Start ()
     {
-	    	
-	}
-	
-	// Update is called once per frame
-	void Update ()
+
+    }
+
+    // Update is called once per frame
+    void Update ()
     {
 		if (Input.GetKeyDown(KeyCode.F5))
         {            
@@ -73,18 +75,30 @@ public class SaveSystem : MonoBehaviour {
 
     private void Load()
     {
-        int objects_amount = 0;
-        foreach (string file in Directory.GetFiles(Application.persistentDataPath + "/saves/"))
+        //if (File.Exists(Application.persistentDataPath + "/saves/"))
         {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream stream = new FileStream(Application.persistentDataPath + "/saves/object" + objects_amount + ".glaz", FileMode.Open);
+            List<GameObject> objectToDelete = new List<GameObject>();
+            objectToDelete.AddRange(GameObject.FindGameObjectsWithTag("Walls"));
+            objectToDelete.AddRange(GameObject.FindGameObjectsWithTag("Units"));
 
-            ObjectData data = bf.Deserialize(stream) as ObjectData;
-            stream.Close();
+            foreach (GameObject o in objectToDelete)
+            {
+                Destroy(o);
+            }
 
-            SpawnOnLoad(data);
+            int objects_amount = 0;
+            foreach (string file in Directory.GetFiles(Application.persistentDataPath + "/saves/"))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                FileStream stream = new FileStream(Application.persistentDataPath + "/saves/object" + objects_amount + ".glaz", FileMode.Open);
 
-            ++objects_amount;
+                ObjectData data = bf.Deserialize(stream) as ObjectData;
+                stream.Close();
+
+                SpawnOnLoad(data);
+
+                ++objects_amount;
+            }
         }
     }
 
