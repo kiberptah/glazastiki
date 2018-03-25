@@ -12,6 +12,8 @@ public class PauseSystem : MonoBehaviour {
 
     bool isPaused = false;
 
+    GameObject button;
+
     // Use this for initialization
     void Start ()
     {
@@ -23,20 +25,27 @@ public class PauseSystem : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            isPaused = !isPaused;
-            PauseGame(isPaused);
+            //isPaused = !isPaused;
+            PauseGame();
         }
 	}
 
-    public void PauseGame(bool isPaused)
+    public void PauseGame()
     {      
-        canvas.gameObject.SetActive(isPaused);
-        gameObject.GetComponent<SpawnSystem>().enabled = !isPaused;
+        canvas.gameObject.SetActive(!canvas.gameObject.activeInHierarchy);
+        gameObject.GetComponent<SpawnSystem>().enabled = !gameObject.GetComponent<SpawnSystem>().enabled;
     }
 
     public void ChangeScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
     }
+
+    public void ShowButton(GameObject button)
+    {
+        button.SetActive(!button.activeInHierarchy);
+    }
+
+
 
 }

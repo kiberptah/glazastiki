@@ -6,19 +6,19 @@ using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
+using UnityEngine.UI;
+
 using UnityEngine.SceneManagement;
 
 public class SaveSystem : MonoBehaviour {
 
-    //private GameObject[] objectForSave;
     List<GameObject> objectForSave = new List<GameObject>();
-    public string test;
 
-    private string saveFileName = "testSave";  //оформить как аргумент в функциях save&load
+    public Text saveName;  //оформить как аргумент в функциях save&load
 
     void Start ()
     {
-
+        saveName.text = "unnamed save";
     }
 
     // Update is called once per frame
@@ -35,7 +35,7 @@ public class SaveSystem : MonoBehaviour {
         }
 	}
 
-    private void Save()
+    public void Save()
     {
         //string saveFileName = "testSave";
 
@@ -61,7 +61,7 @@ public class SaveSystem : MonoBehaviour {
             ++num;
         }
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream stream = new FileStream(Application.persistentDataPath + "/saves/" + saveFileName + ".glaz", FileMode.Create);
+        FileStream stream = new FileStream(Application.persistentDataPath + "/saves/" + saveName.text + ".glaz", FileMode.Create);
 
         bf.Serialize(stream, data);
         stream.Close();
@@ -70,7 +70,7 @@ public class SaveSystem : MonoBehaviour {
 
     private void Load()
     {
-        if (File.Exists(Application.persistentDataPath + "/saves/" + saveFileName + ".glaz"))
+        if (File.Exists(Application.persistentDataPath + "/saves/" + saveName.text + ".glaz"))
         {
             //Очищаем сцену перед загрузкой сохранения
             List<GameObject> objectToDelete = new List<GameObject>();
@@ -84,7 +84,7 @@ public class SaveSystem : MonoBehaviour {
 
             //Загрузка
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream stream = new FileStream(Application.persistentDataPath + "/saves/" + saveFileName + ".glaz", FileMode.Open);
+            FileStream stream = new FileStream(Application.persistentDataPath + "/saves/" + saveName.text + ".glaz", FileMode.Open);
 
             ObjectData[] data = bf.Deserialize(stream) as ObjectData[];
             stream.Close();
@@ -105,6 +105,8 @@ public class SaveSystem : MonoBehaviour {
                     new Vector3(loadedObject.coordinates[0], loadedObject.coordinates[1], 1), Quaternion.identity);
         newObject.tag = loadedObject.tag;
     }
+
+
 
 }
 
