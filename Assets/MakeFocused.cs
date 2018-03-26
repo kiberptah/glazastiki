@@ -20,12 +20,15 @@ public class MakeFocused : MonoBehaviour {
 	void Update ()
     {
         input.Select();
+
     }
 
-    private void OnMouseDown()
+    public void ResetSaveButton()
     {
         if (input.isFocused == false)
         {
+            Debug.Log("AAAARR");
+            input.text = "";
             input.gameObject.SetActive(false);
         }
     }

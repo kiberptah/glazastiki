@@ -14,12 +14,12 @@ public class SaveSystem : MonoBehaviour {
 
     List<GameObject> objectForSave = new List<GameObject>();
 
-    public Text saveName;
+    public InputField saveName;
 
-
+    private string savePath;
     void Start ()
     {
-
+        savePath = Application.dataPath + "/saves/";
     }
 
     // Update is called once per frame
@@ -43,18 +43,7 @@ public class SaveSystem : MonoBehaviour {
         objectForSave.AddRange(GameObject.FindGameObjectsWithTag("Walls"));
         objectForSave.AddRange(GameObject.FindGameObjectsWithTag("Units"));
 
-        //Создаём папку сохранений если её ещё нет
-        if (File.Exists(Application.persistentDataPath + "/saves/") == false)
-        {
-            Directory.CreateDirectory(Path.GetDirectoryName(Application.persistentDataPath + "/saves/"));
-        }
 
-        //Если имея сохранения не введено, то оно стадартное  
-        if (saveName.text == "")//ПОЧЕМУ-ТО НЕ РАБОТАЕТ
-        {
-            saveName.text = "NoName";           
-        }
-        //saveName.text; 
 
         // с е р и а л и з а ц и я объектов
         int num = 0;
@@ -66,7 +55,7 @@ public class SaveSystem : MonoBehaviour {
             ++num;
         }
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream stream = new FileStream(Application.persistentDataPath + "/saves/" + saveName.text + ".glaz", FileMode.Create);
+        FileStream stream = new FileStream(savePath + saveName.text + ".glaz", FileMode.Create);
 
         bf.Serialize(stream, data);
         stream.Close();
@@ -75,7 +64,7 @@ public class SaveSystem : MonoBehaviour {
 
     private void Load()
     {
-        if (File.Exists(Application.persistentDataPath + "/saves/" + saveName.text + ".glaz"))
+        if (File.Exists(savePath + saveName.text + ".glaz"))
         {
             //Очищаем сцену перед загрузкой сохранения
             List<GameObject> objectToDelete = new List<GameObject>();
@@ -89,7 +78,7 @@ public class SaveSystem : MonoBehaviour {
 
             //Загрузка
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream stream = new FileStream(Application.persistentDataPath + "/saves/" + saveName.text + ".glaz", FileMode.Open);
+            FileStream stream = new FileStream(savePath + saveName.text + ".glaz", FileMode.Open);
 
             ObjectData[] data = bf.Deserialize(stream) as ObjectData[];
             stream.Close();
@@ -114,13 +103,27 @@ public class SaveSystem : MonoBehaviour {
     public void SaveButton()
     {
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
-        {   
+        {
+            //Создаём папку сохранений если её ещё нет
+            if (File.Exists(savePath) == false)
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(savePath));
+            }
+            //Если имея сохранения не введено, то оно стадартное  
+            if (saveName.text == "")
+            {
+                int files_amount = 1;
+                DirectoryInfo di = new DirectoryInfo(savePath);
+                foreach (var fi in di.GetFiles())
+                {
+                    ++files_amount;
+                }
+                saveName.text = "Save" + files_amount;                  
+            }
+
             Save();
         }
     }
-
-
-
 }
 
 [Serializable]
