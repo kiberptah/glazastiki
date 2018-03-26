@@ -14,11 +14,12 @@ public class SaveSystem : MonoBehaviour {
 
     List<GameObject> objectForSave = new List<GameObject>();
 
-    public Text saveName;  //оформить как аргумент в функциях save&load
+    public Text saveName;
+
 
     void Start ()
     {
-        saveName.text = "unnamed save";
+
     }
 
     // Update is called once per frame
@@ -35,12 +36,8 @@ public class SaveSystem : MonoBehaviour {
         }
 	}
 
-    public void Save()
+    private void Save()
     {
-        //string saveFileName = "testSave";
-
-        int num = 0;
-
         //и стенки и юниты, всё это объекты...
         objectForSave = new List<GameObject>();
         objectForSave.AddRange(GameObject.FindGameObjectsWithTag("Walls"));
@@ -52,7 +49,15 @@ public class SaveSystem : MonoBehaviour {
             Directory.CreateDirectory(Path.GetDirectoryName(Application.persistentDataPath + "/saves/"));
         }
 
+        //Если имея сохранения не введено, то оно стадартное  
+        if (saveName.text == "")//ПОЧЕМУ-ТО НЕ РАБОТАЕТ
+        {
+            saveName.text = "NoName";           
+        }
+        //saveName.text; 
+
         // с е р и а л и з а ц и я объектов
+        int num = 0;
         ObjectData[] data = new ObjectData[objectForSave.Capacity];
         foreach (GameObject element in objectForSave)
         {
@@ -104,6 +109,14 @@ public class SaveSystem : MonoBehaviour {
             = Instantiate(objectToSpawn, 
                     new Vector3(loadedObject.coordinates[0], loadedObject.coordinates[1], 1), Quaternion.identity);
         newObject.tag = loadedObject.tag;
+    }
+
+    public void SaveButton()
+    {
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {   
+            Save();
+        }
     }
 
 
