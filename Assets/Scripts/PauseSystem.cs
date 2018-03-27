@@ -10,8 +10,6 @@ public class PauseSystem : MonoBehaviour {
 
     public Component spawnSystem;
 
-    bool isPaused = false;
-
     GameObject button;
 
     // Use this for initialization
