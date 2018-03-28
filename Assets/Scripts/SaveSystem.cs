@@ -15,6 +15,7 @@ public class SaveSystem : MonoBehaviour {
     List<GameObject> objectForSave = new List<GameObject>();
 
     public InputField saveName;
+    public Text loadName;
 
     private string savePath;
     void Start ()
@@ -25,7 +26,9 @@ public class SaveSystem : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-		if (Input.GetKeyDown(KeyCode.F5))
+        changeLoadName();
+
+        if (Input.GetKeyDown(KeyCode.F5))
         {            
             Save();
         }
@@ -64,7 +67,7 @@ public class SaveSystem : MonoBehaviour {
 
     private void Load()
     {
-        if (File.Exists(savePath + saveName.text + ".glaz"))
+        if (File.Exists(savePath + loadName.text))
         {
             //Очищаем сцену перед загрузкой сохранения
             List<GameObject> objectToDelete = new List<GameObject>();
@@ -78,14 +81,16 @@ public class SaveSystem : MonoBehaviour {
 
             //Загрузка
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream stream = new FileStream(savePath + saveName.text + ".glaz", FileMode.Open);
+            FileStream stream = new FileStream(savePath + loadName.text, FileMode.Open);
 
             ObjectData[] data = bf.Deserialize(stream) as ObjectData[];
             stream.Close();
             foreach (ObjectData element in data)
-            {                               
+            {
+                Debug.Log("Loading...");
                 SpawnOnLoad(element);
             }
+            
         }
     }
 
@@ -98,6 +103,8 @@ public class SaveSystem : MonoBehaviour {
             = Instantiate(objectToSpawn, 
                     new Vector3(loadedObject.coordinates[0], loadedObject.coordinates[1], 1), Quaternion.identity);
         newObject.tag = loadedObject.tag;
+
+        Debug.Log("LOADED");
     }
 
     public void SaveButton()
@@ -124,6 +131,50 @@ public class SaveSystem : MonoBehaviour {
             Save();
         }
     }
+
+    int position = 0;
+    public void LoadButton()
+    {
+        //if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            Load();
+            Debug.Log("CLICK");
+        }
+    }
+    public void PositionPrev()
+    {
+        --position;
+        Debug.Log(position);
+    }
+    public void PositionNext()
+    {
+        ++position;
+        Debug.Log(position);
+    }
+    public void changeLoadName()
+    {
+        List<string> loadFiles = new List<string>();
+        DirectoryInfo di = new DirectoryInfo(savePath);
+
+        foreach (FileInfo file in di.GetFiles())
+        {
+            loadFiles.Add(file.Name);
+        }
+
+        if(position >= loadFiles.Count)
+        {
+            position = 0;
+            Debug.Log("Changed to " + position);
+        }
+        if (position < 0)
+        {
+            position = loadFiles.Count - 1;
+            Debug.Log("Changed to " + position);
+        }
+
+        loadName.text = loadFiles[position];
+    }
+
 }
 
 [Serializable]

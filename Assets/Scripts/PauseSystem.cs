@@ -12,6 +12,8 @@ public class PauseSystem : MonoBehaviour {
 
     GameObject button;
 
+    public GameObject ButtonToHide;
+
     // Use this for initialization
     void Start ()
     {
@@ -22,9 +24,9 @@ public class PauseSystem : MonoBehaviour {
 	void Update ()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            //isPaused = !isPaused;
+        {            
             PauseGame();
+            HideButton(); // пиздец говнокод конешно костыль чтобы прятать одну конкретную кнопку ааа мб реализовать прямо в функции этой кнопки через keyCode escape...
         }
 	}
 
@@ -44,6 +46,10 @@ public class PauseSystem : MonoBehaviour {
         button.SetActive(!button.activeInHierarchy);
     }
 
+    private void HideButton() //Прячем кнопку загрузки
+    {
+        ButtonToHide.SetActive(false);
+    }
 
 
 }
