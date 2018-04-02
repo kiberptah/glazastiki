@@ -12,12 +12,12 @@ using UnityEngine.SceneManagement;
 
 public class SaveSystem : MonoBehaviour {
 
-    List<GameObject> objectForSave = new List<GameObject>();
+    static List<GameObject> objectForSave = new List<GameObject>();
 
-    public InputField saveName;
-    public Text loadName;
+    public static InputField saveName;
+    public static Text loadName;
 
-    private string savePath;
+    private static string savePath;
     void Start ()
     {
         savePath = Application.dataPath + "/saves/";
@@ -39,7 +39,7 @@ public class SaveSystem : MonoBehaviour {
         }
 	}
 
-    private void Save()
+    public static void Save()
     {
         //и стенки и юниты, всё это объекты...
         objectForSave = new List<GameObject>();
@@ -65,7 +65,7 @@ public class SaveSystem : MonoBehaviour {
     }
 
 
-    private void Load()
+    private static void Load()
     {
         if (File.Exists(savePath + loadName.text))
         {
@@ -94,7 +94,7 @@ public class SaveSystem : MonoBehaviour {
         }
     }
 
-    private void SpawnOnLoad(ObjectData loadedObject)
+    private static void SpawnOnLoad(ObjectData loadedObject)
     {
         GameObject objectToSpawn;
 
@@ -107,7 +107,7 @@ public class SaveSystem : MonoBehaviour {
         Debug.Log("LOADED");
     }
 
-    public void SaveButton()
+    public static void SaveButton(string savePath)
     {
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
