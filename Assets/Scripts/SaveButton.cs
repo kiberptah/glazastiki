@@ -12,19 +12,24 @@ using UnityEngine.SceneManagement;
 
 public class SaveButton : MonoBehaviour {
 
-	// Use this for initialization
+    public InputField saveName;
+
 	void Start ()
     {
-        SaveSystem.Save();
+        
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
+	void Update ()
+    {
+
 	}
 
-    public static void Go(string savePath)
+    public void Go()
     {
+        Debug.Log("Go");
+        string savePath = SaveSystem.savePath;
+
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
             //Создаём папку сохранений если её ещё нет
@@ -44,7 +49,18 @@ public class SaveButton : MonoBehaviour {
                 saveName.text = "Save" + files_amount;
             }
 
-            Save();
+            SaveSystem.saveName = saveName.text;
+            Debug.Log(savePath);
+            SaveSystem.Save();
+        }
+    }
+
+    public void ResetSaveButton()
+    {
+        if (saveName.isFocused == false)
+        {
+            saveName.text = "";
+            saveName.gameObject.SetActive(false);
         }
     }
 }

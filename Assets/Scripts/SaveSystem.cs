@@ -14,10 +14,10 @@ public class SaveSystem : MonoBehaviour {
 
     static List<GameObject> objectForSave = new List<GameObject>();
 
-    public static InputField saveName;
-    public static Text loadName;
+    public static string saveName;
+    public static string loadName;
 
-    private static string savePath;
+    public static string savePath;
     void Start ()
     {
         savePath = Application.dataPath + "/saves/";
@@ -26,7 +26,7 @@ public class SaveSystem : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-        changeLoadName();
+        //changeLoadName();
 
         if (Input.GetKeyDown(KeyCode.F5))
         {            
@@ -41,6 +41,9 @@ public class SaveSystem : MonoBehaviour {
 
     public static void Save()
     {
+        Debug.Log("Save");
+        //savePath = Application.dataPath + "/saves/";
+
         //и стенки и юниты, всё это объекты...
         objectForSave = new List<GameObject>();
         objectForSave.AddRange(GameObject.FindGameObjectsWithTag("Walls"));
@@ -58,16 +61,16 @@ public class SaveSystem : MonoBehaviour {
             ++num;
         }
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream stream = new FileStream(savePath + saveName.text + ".glaz", FileMode.Create);
+        FileStream stream = new FileStream(savePath + saveName + ".glaz", FileMode.Create);
 
         bf.Serialize(stream, data);
         stream.Close();
     }
 
 
-    private static void Load()
+    public static void Load()
     {
-        if (File.Exists(savePath + loadName.text))
+        if (File.Exists(savePath + loadName))
         {
             //Очищаем сцену перед загрузкой сохранения
             List<GameObject> objectToDelete = new List<GameObject>();
@@ -81,19 +84,28 @@ public class SaveSystem : MonoBehaviour {
 
             //Загрузка
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream stream = new FileStream(savePath + loadName.text, FileMode.Open);
+            FileStream stream = new FileStream(savePath + loadName, FileMode.Open);
 
             ObjectData[] data = bf.Deserialize(stream) as ObjectData[];
             stream.Close();
             foreach (ObjectData element in data)
             {
-                Debug.Log("Loading...");
-                SpawnOnLoad(element);
+                //Debug.Log("Loading...");
+                //SpawnOnLoad(element);
+                GameObject objectToSpawn;
+
+                objectToSpawn = GameObject.Find(element.type);
+                GameObject newObject
+                    = Instantiate(objectToSpawn,
+                            new Vector3(element.coordinates[0], element.coordinates[1], 1), Quaternion.identity);
+                newObject.tag = element.tag;
+                //Debug.Log("LOADED");
             }
             
         }
     }
 
+    /*
     private static void SpawnOnLoad(ObjectData loadedObject)
     {
         GameObject objectToSpawn;
@@ -106,32 +118,10 @@ public class SaveSystem : MonoBehaviour {
 
         Debug.Log("LOADED");
     }
+    */
 
-    public static void SaveButton(string savePath)
-    {
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
-        {
-            //Создаём папку сохранений если её ещё нет
-            if (File.Exists(savePath) == false)
-            {
-                Directory.CreateDirectory(Path.GetDirectoryName(savePath));
-            }
-            //Если имея сохранения не введено, то оно стадартное  
-            if (saveName.text == "")
-            {
-                int files_amount = 1;
-                DirectoryInfo di = new DirectoryInfo(savePath);
-                foreach (var fi in di.GetFiles())
-                {
-                    ++files_amount;
-                }
-                saveName.text = "Save" + files_amount;                  
-            }
 
-            Save();
-        }
-    }
-
+    /*
     int position = 0;
     public void LoadButton()
     {
@@ -174,7 +164,7 @@ public class SaveSystem : MonoBehaviour {
 
         loadName.text = loadFiles[position];
     }
-
+    */
 }
 
 [Serializable]

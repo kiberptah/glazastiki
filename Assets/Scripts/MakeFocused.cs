@@ -8,7 +8,7 @@ public class MakeFocused : MonoBehaviour {
 
     public InputField input;
 
-    public Component button;
+    //public Component button;
 
 	// Use this for initialization
 	void Start ()
@@ -21,15 +21,5 @@ public class MakeFocused : MonoBehaviour {
     {
         input.Select();
 
-    }
-
-    public void ResetSaveButton()
-    {
-        if (input.isFocused == false)
-        {
-            Debug.Log("AAAARR");
-            input.text = "";
-            input.gameObject.SetActive(false);
-        }
     }
 }

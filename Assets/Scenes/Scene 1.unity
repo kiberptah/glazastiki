@@ -349,8 +349,8 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1677978566}
-        m_MethodName: SaveButton
+      - m_Target: {fileID: 317436008}
+        m_MethodName: Go
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -371,7 +371,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 211422531}
+      - m_Target: {fileID: 317436008}
         m_MethodName: ResetSaveButton
         m_Mode: 1
         m_Arguments:
@@ -441,7 +441,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: {fileID: 211422527}
-  button: {fileID: 0}
 --- !u!1 &257488346
 GameObject:
   m_ObjectHideFlags: 0
@@ -527,6 +526,7 @@ GameObject:
   - component: {fileID: 317436007}
   - component: {fileID: 317436006}
   - component: {fileID: 317436005}
+  - component: {fileID: 317436008}
   m_Layer: 5
   m_Name: SAVE
   m_TagString: Untagged
@@ -639,6 +639,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 317436003}
+--- !u!114 &317436008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 317436003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11d4a5d5c3c82c0438c3f60f6c157320, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveName: {fileID: 211422527}
 --- !u!1 &330642485
 GameObject:
   m_ObjectHideFlags: 0
@@ -2385,8 +2397,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc3f7b27d5249374bb351b323a9a1bdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveName: {fileID: 211422527}
-  loadName: {fileID: 2087239653}
 --- !u!4 &1677978567
 Transform:
   m_ObjectHideFlags: 0
@@ -2521,7 +2531,6 @@ GameObject:
   - component: {fileID: 1755039920}
   - component: {fileID: 1755039919}
   - component: {fileID: 1755039918}
-  - component: {fileID: 1755039917}
   m_Layer: 5
   m_Name: Choose Save File
   m_TagString: Untagged
@@ -2550,17 +2559,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0.8}
   m_SizeDelta: {x: 140, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1755039917
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1755039915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ba78143603b7ae44b1daa5e2579107d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1755039918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2657,6 +2655,7 @@ GameObject:
   - component: {fileID: 1827181586}
   - component: {fileID: 1827181585}
   - component: {fileID: 1827181584}
+  - component: {fileID: 1827181587}
   m_Layer: 5
   m_Name: LOAD
   m_TagString: Untagged
@@ -2722,18 +2721,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1827181585}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1677978569}
-        m_MethodName: ShowButton
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1755039915}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1827181585
@@ -2769,6 +2757,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1827181582}
+--- !u!114 &1827181587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1827181582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c14dd84c999f4147973deaff330c04a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadName: {fileID: 2087239653}
 --- !u!1 &1878586129
 GameObject:
   m_ObjectHideFlags: 0
