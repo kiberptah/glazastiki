@@ -15,7 +15,7 @@ public class SaveSystem : MonoBehaviour {
     static List<GameObject> objectForSave = new List<GameObject>();
 
     public static string saveName;
-    public static string loadName;
+    //public static string loadName;
 
     public static string savePath;
     void Start ()
@@ -35,7 +35,7 @@ public class SaveSystem : MonoBehaviour {
 
         if(Input.GetKeyDown(KeyCode.F9))
         {
-            Load();
+            //Load();
         }
 	}
 
@@ -68,7 +68,7 @@ public class SaveSystem : MonoBehaviour {
     }
 
 
-    public static void Load()
+    public static void Load(string loadName)
     {
         if (File.Exists(savePath + loadName))
         {

@@ -12,6 +12,8 @@ using UnityEngine.SceneManagement;
 
 public class SaveButton : MonoBehaviour {
 
+    public GameObject SaveMenu;
+
     public InputField saveName;
 
 	void Start ()
@@ -25,12 +27,12 @@ public class SaveButton : MonoBehaviour {
 
 	}
 
-    public void Go()
+    public void Go(bool isOk)
     {
         Debug.Log("Go");
         string savePath = SaveSystem.savePath;
 
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) || isOk == true)
         {
             //Создаём папку сохранений если её ещё нет
             if (File.Exists(savePath) == false)
@@ -60,7 +62,17 @@ public class SaveButton : MonoBehaviour {
         if (saveName.isFocused == false)
         {
             saveName.text = "";
-            saveName.gameObject.SetActive(false);
+            //saveName.gameObject.SetActive(false);
         }
+    }
+
+    public void openSaveMenu()
+    {
+        SaveMenu.SetActive(true);
+    }
+
+    public void closeSaveMenu()
+    {
+        SaveMenu.SetActive(false);
     }
 }
