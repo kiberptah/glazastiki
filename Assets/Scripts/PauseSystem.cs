@@ -6,13 +6,17 @@ using UnityEngine.SceneManagement;
 
 public class PauseSystem : MonoBehaviour {
 
-    public Transform canvas;
+    public Transform canvasPause;
+
+    public Transform canvasPauseMenu;
+
+    public Transform canvasLoadMenu;
+
+    public Transform canvasSaveMenu;
 
     public Component spawnSystem;
 
-    GameObject button;
-
-    public GameObject ButtonToHide;
+    //public GameObject ButtonToHide;
 
     // Use this for initialization
     void Start ()
@@ -26,19 +30,27 @@ public class PauseSystem : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Escape))
         {            
             PauseGame();
-            HideButton(); // пиздец говнокод конешно костыль чтобы прятать одну конкретную кнопку ааа мб реализовать прямо в функции этой кнопки через keyCode escape...
+            //HideButton(); // пиздец говнокод конешно костыль чтобы прятать одну конкретную кнопку ааа мб реализовать прямо в функции этой кнопки через keyCode escape...
         }
 	}
 
     public void PauseGame()
-    {      
-        canvas.gameObject.SetActive(!canvas.gameObject.activeInHierarchy);
-        gameObject.GetComponent<SpawnSystem>().enabled = !gameObject.GetComponent<SpawnSystem>().enabled;
-    }
+    {   
+        //canvasPause.gameObject.SetActive(!canvasPause.gameObject.activeInHierarchy);
+        gameObject.GetComponent<SpawnSystem>().enabled = !gameObject.GetComponent<SpawnSystem>().enabled; //отключение спауна объектов
 
-    public void ChangeScene(string sceneName)
-    {
-        SceneManager.LoadScene(sceneName);
+        if (canvasPause.gameObject.activeSelf == true)
+        {
+            canvasPause.gameObject.SetActive(false);
+            canvasPauseMenu.gameObject.SetActive(false);
+            canvasLoadMenu.gameObject.SetActive(false);
+            canvasSaveMenu.gameObject.SetActive(false);
+        }
+        else
+        {
+            canvasPause.gameObject.SetActive(true);
+            canvasPauseMenu.gameObject.SetActive(true);
+        }
     }
 
     public void ShowButton(GameObject button)
@@ -46,10 +58,11 @@ public class PauseSystem : MonoBehaviour {
         button.SetActive(!button.activeInHierarchy);
     }
 
+    /*
     private void HideButton() //Прячем кнопку загрузки
     {
         ButtonToHide.SetActive(false);
     }
-
+    */
 
 }

@@ -10,7 +10,7 @@ public class SpawnSystem : MonoBehaviour
     private int arenaSize = 26;
 
     ///general
-    private GameObject objectToSpawn;
+    public GameObject objectToSpawn; //для рейкастинга зрения
     ///walls
     public GameObject[] walls = new GameObject[5];
     ///units
@@ -20,7 +20,7 @@ public class SpawnSystem : MonoBehaviour
     public GameObject draggedObject;
 
 
-    private string chosenSpawnMode;
+    public string chosenSpawnMode; //для рейкастинга зрения?
 
     public Text SpawnModeText;
     public Text spawnObjectText;
@@ -84,7 +84,7 @@ public class SpawnSystem : MonoBehaviour
             {
                 if ((xCursor <= arenaSize && xCursor > 0) && (yCursor <= arenaSize && yCursor > 0))
                 {
-                    GameObject newObject = Instantiate(objectToSpawn, new Vector3(xCursor, yCursor, 1), Quaternion.identity);
+                    GameObject newObject = Instantiate(objectToSpawn, new Vector3(xCursor, yCursor, 1), objectToSpawn.transform.rotation);
                     newObject.tag = chosenSpawnMode;
                     
                 }
@@ -99,7 +99,7 @@ public class SpawnSystem : MonoBehaviour
             if (Input.GetButtonDown("LMB"))
             {
                 RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector3.forward, 0);
-                if (hit)
+                if (hit && hit.transform.tag == "Units")
                 {
                     draggedObject = hit.collider.gameObject;
                 }

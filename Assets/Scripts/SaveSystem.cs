@@ -92,9 +92,10 @@ public class SaveSystem : MonoBehaviour {
             {
                 //Debug.Log("Loading...");
                 //SpawnOnLoad(element);
-                GameObject objectToSpawn;
+                //GameObject objectToSpawn;
 
-                objectToSpawn = GameObject.Find(element.type);
+                GameObject objectToSpawn = GameObject.Find(element.type);
+                Debug.Log(element.type);
                 GameObject newObject
                     = Instantiate(objectToSpawn,
                             new Vector3(element.coordinates[0], element.coordinates[1], 1), Quaternion.identity);
@@ -179,8 +180,10 @@ public class ObjectData
         type = obj.name.Remove(obj.name.Length - 7); // нужно удалить окончание "(Clone)" это 7 символов.
         tag = obj.tag;
 
-        coordinates = new float[2];
+        coordinates = new float[3];
         coordinates[0] = obj.transform.position.x;
         coordinates[1] = obj.transform.position.y;
+
+        coordinates[2] = obj.transform.rotation.z;
     }   
 }

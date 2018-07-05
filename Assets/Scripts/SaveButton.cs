@@ -54,6 +54,8 @@ public class SaveButton : MonoBehaviour {
             SaveSystem.saveName = saveName.text;
             Debug.Log(savePath);
             SaveSystem.Save();
+
+            SaveMenu.gameObject.SetActive(false);
         }
     }
 

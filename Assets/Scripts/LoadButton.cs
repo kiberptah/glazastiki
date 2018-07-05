@@ -23,7 +23,6 @@ public class LoadButton : MonoBehaviour
     {
         SaveSystem.Load(loadName.text);
         Debug.Log(loadName.text);
-
     }
 
     public void GetSaveList()
