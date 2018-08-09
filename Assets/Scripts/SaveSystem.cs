@@ -48,7 +48,7 @@ public class SaveSystem : MonoBehaviour {
         objectForSave = new List<GameObject>();
         objectForSave.AddRange(GameObject.FindGameObjectsWithTag("Walls"));
         objectForSave.AddRange(GameObject.FindGameObjectsWithTag("Units"));
-
+        objectForSave.AddRange(GameObject.FindGameObjectsWithTag("Height"));
 
 
         // с е р и а л и з а ц и я объектов
@@ -76,6 +76,7 @@ public class SaveSystem : MonoBehaviour {
             List<GameObject> objectToDelete = new List<GameObject>();
             objectToDelete.AddRange(GameObject.FindGameObjectsWithTag("Walls"));
             objectToDelete.AddRange(GameObject.FindGameObjectsWithTag("Units"));
+            objectForSave.AddRange(GameObject.FindGameObjectsWithTag("Height"));
 
             foreach (GameObject o in objectToDelete)
             {
@@ -174,6 +175,7 @@ public class ObjectData
     public float[] coordinates;
     public string type;
     public string tag;
+    public int number; // для юнитов и высот
 
     public ObjectData(GameObject obj)
     {

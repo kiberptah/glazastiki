@@ -54,7 +54,7 @@ public class ScreenShotMaker : MonoBehaviour {
         yield return new WaitForEndOfFrame();
         
         // Take screenshot
-        ScreenCapture.CaptureScreenshot(time, 2);
+        ScreenCapture.CaptureScreenshot(time, 1);
 
         // Wait for screen rendering to complete
         yield return new WaitForEndOfFrame();

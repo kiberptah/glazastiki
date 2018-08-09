@@ -35,8 +35,11 @@ public class Vision : MonoBehaviour {
         LineRenderer connector;      
         connector = GetComponent<LineRenderer>();
 
-        connector.enabled = (gameObject.GetComponent<SpriteRenderer>().color == gameSystems.GetComponent<SpawnSystem>().objectToSpawn.GetComponent<SpriteRenderer>().color) 
-            && gameSystems.GetComponent<DrawLines>().ShowVisionLines; //если цвета ок и режим включен то показываем
+        if (gameSystems.GetComponent<SpawnSystem>().chosenSpawnMode == "Units")
+        {
+            connector.enabled = (gameObject.GetComponent<SpriteRenderer>().color == gameSystems.GetComponent<SpawnSystem>().objectToSpawn.GetComponent<SpriteRenderer>().color)
+                && gameSystems.GetComponent<DrawLines>().ShowVisionLines; //если цвета ок и режим включен то показываем
+        }
 
         connector.positionCount = 0;
 
