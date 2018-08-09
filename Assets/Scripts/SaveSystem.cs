@@ -41,7 +41,7 @@ public class SaveSystem : MonoBehaviour {
 
     public static void Save()
     {
-        Debug.Log("Save");
+        //Debug.Log("Save");
         //savePath = Application.dataPath + "/saves/";
 
         //и стенки и юниты, всё это объекты...
@@ -92,81 +92,29 @@ public class SaveSystem : MonoBehaviour {
             foreach (ObjectData element in data)
             {
                 //Debug.Log("Loading...");
-                //SpawnOnLoad(element);
-                //GameObject objectToSpawn;
 
                 GameObject objectToSpawn = GameObject.Find(element.type);
-                Debug.Log(element.type);
+                //Debug.Log(element.type);
                 GameObject newObject
                     = Instantiate(objectToSpawn,
                             new Vector3(element.coordinates[0], element.coordinates[1], 1), Quaternion.identity);
                 newObject.tag = element.tag;
+                if (newObject.tag == "Units")
+                {
+                    newObject.GetComponent<numeration>().number = element.number;
+                    newObject.GetComponent<changeType>().unitType = element.unitType;                 
+                }
+                if (newObject.tag == "Height")
+                {
+                    newObject.GetComponent<getNumberHeight>().number = element.number;
+                    Debug.Log(element.number);
+                    //Debug.Log(newObject.GetComponent<numeration>().number);
+                }
                 //Debug.Log("LOADED");
             }
             
         }
     }
-
-    /*
-    private static void SpawnOnLoad(ObjectData loadedObject)
-    {
-        GameObject objectToSpawn;
-
-        objectToSpawn = GameObject.Find(loadedObject.type);
-        GameObject newObject 
-            = Instantiate(objectToSpawn, 
-                    new Vector3(loadedObject.coordinates[0], loadedObject.coordinates[1], 1), Quaternion.identity);
-        newObject.tag = loadedObject.tag;
-
-        Debug.Log("LOADED");
-    }
-    */
-
-
-    /*
-    int position = 0;
-    public void LoadButton()
-    {
-        //if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
-        {
-            Load();
-            Debug.Log("CLICK");
-        }
-    }
-    public void PositionPrev()
-    {
-        --position;
-        Debug.Log(position);
-    }
-    public void PositionNext()
-    {
-        ++position;
-        Debug.Log(position);
-    }
-    public void changeLoadName()
-    {
-        List<string> loadFiles = new List<string>();
-        DirectoryInfo di = new DirectoryInfo(savePath);
-
-        foreach (FileInfo file in di.GetFiles())
-        {
-            loadFiles.Add(file.Name);
-        }
-
-        if(position >= loadFiles.Count)
-        {
-            position = 0;
-            Debug.Log("Changed to " + position);
-        }
-        if (position < 0)
-        {
-            position = loadFiles.Count - 1;
-            Debug.Log("Changed to " + position);
-        }
-
-        loadName.text = loadFiles[position];
-    }
-    */
 }
 
 [Serializable]
@@ -175,7 +123,9 @@ public class ObjectData
     public float[] coordinates;
     public string type;
     public string tag;
+
     public int number; // для юнитов и высот
+    public int unitType; // для юнитов
 
     public ObjectData(GameObject obj)
     {
@@ -187,5 +137,16 @@ public class ObjectData
         coordinates[1] = obj.transform.position.y;
 
         coordinates[2] = obj.transform.rotation.z;
+
+        if (obj.tag == "Units")
+        {
+            number = obj.GetComponent<numeration>().number;
+            unitType = obj.GetComponent<changeType>().unitType;
+        }
+
+        if (obj.tag == "Height")
+        {
+            number = obj.GetComponent<getNumberHeight>().number;
+        }
     }   
 }

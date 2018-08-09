@@ -29,7 +29,6 @@ public class SaveButton : MonoBehaviour {
 
     public void Go(bool isOk)
     {
-        Debug.Log("Go");
         string savePath = SaveSystem.savePath;
 
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) || isOk == true)
@@ -52,7 +51,7 @@ public class SaveButton : MonoBehaviour {
             }
 
             SaveSystem.saveName = saveName.text;
-            Debug.Log(savePath);
+            //Debug.Log(savePath);
             SaveSystem.Save();
 
             SaveMenu.gameObject.SetActive(false);

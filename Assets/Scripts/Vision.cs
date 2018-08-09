@@ -4,17 +4,13 @@ using UnityEngine;
 
 public class Vision : MonoBehaviour {
 
-    //Color currentColor;
     public GameObject gameSystems;
-
-    //bool lineDisplay;
 
     void Start ()
     {
         if (transform.position.y != -100) // на y = -100 лежат префабы
         {
-            //lineDisplay = false;
-            gameObject.GetComponent<LineRenderer>().enabled = true;
+            gameObject.GetComponent<LineRenderer>().enabled = false;
         }
     }
 
@@ -30,7 +26,6 @@ public class Vision : MonoBehaviour {
     void DrawLines()
     {
         List<GameObject> allUnits = new List<GameObject>();
-        //currentColor = gameSystems.GetComponent<SpawnSystem>().objectToSpawn.GetComponent<SpriteRenderer>().color;
 
         LineRenderer connector;      
         connector = GetComponent<LineRenderer>();
@@ -62,12 +57,12 @@ public class Vision : MonoBehaviour {
             {
                 connector.positionCount++;
                 connector.SetPosition(i, unit.transform.position);
-                Debug.Log("posiition " + i + " = " + connector.GetPosition(i));
+                //Debug.Log("posiition " + i + " = " + connector.GetPosition(i));
                 ++i;
 
                 connector.positionCount++;
                 connector.SetPosition(i, transform.position);
-                Debug.Log("RETURN: position " + i + " = " + connector.GetPosition(i));
+                //Debug.Log("RETURN: position " + i + " = " + connector.GetPosition(i));
                 ++i;
             }
         }    

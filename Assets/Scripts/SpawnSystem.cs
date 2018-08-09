@@ -92,7 +92,8 @@ public class SpawnSystem : MonoBehaviour
                 {
                     if (chosenSpawnMode == "Height") // ебанатсво для карты высот
                     {
-                        objectToSpawn.GetComponentInChildren<Canvas>().gameObject.GetComponentInChildren<Text>().text = (j).ToString();
+                        objectToSpawn.GetComponent<getNumberHeight>().number = j;
+                        objectToSpawn.GetComponentInChildren<Canvas>().gameObject.GetComponentInChildren<Text>().text = objectToSpawn.GetComponent<getNumberHeight>().number.ToString();
                     }
 
                     GameObject newObject = Instantiate(objectToSpawn, new Vector3(xCursor, yCursor, 1), objectToSpawn.transform.rotation);
