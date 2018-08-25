@@ -69,16 +69,18 @@ public class SpawnSystem : MonoBehaviour
 
     private void spawnStuff()
     {
+        // Спавн штук
         if (chosenSpawnMode == "Walls" || chosenSpawnMode == "Units" || chosenSpawnMode == "Height")
         {
             ///Сначала удаляем уже стоящие на этом тайле стены, как при нажатие ЛКМ так и ПКМ
-            if (Input.GetButton("RMB") || (Input.GetButton("LMB") && (chosenSpawnMode == "Walls" || chosenSpawnMode == "Height")) || (Input.GetButtonDown("LMB") && (chosenSpawnMode == "Units")))
+            if (Input.GetButton("RMB") 
+                || (Input.GetButton("LMB") && (chosenSpawnMode == "Walls" || chosenSpawnMode == "Height"))                
+                || (Input.GetButtonDown("LMB") && (chosenSpawnMode == "Units"))             
+                )
             {
-                //RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector3.forward, 0);
                 RaycastHit2D hit = Physics2D.Raycast(new Vector3(xCursor, yCursor, 1), Vector3.forward, 0, 1 << LayerMask.NameToLayer(chosenSpawnMode));
                 if (hit)
                 {
-                    //Debug.Log("hit");
                     if (hit.collider.gameObject.tag == chosenSpawnMode)
                     {
                         Destroy(hit.collider.gameObject);
@@ -86,7 +88,9 @@ public class SpawnSystem : MonoBehaviour
                 }
             }
             ///Потом ставим новую
-            if ( (Input.GetButton("LMB") && (chosenSpawnMode == "Walls" || chosenSpawnMode == "Height")) || (Input.GetButtonDown("LMB") && (chosenSpawnMode == "Units")))
+            if ( (Input.GetButton("LMB") && (chosenSpawnMode == "Walls" || chosenSpawnMode == "Height")) 
+                || (Input.GetButtonDown("LMB") && (chosenSpawnMode == "Units"))
+                )
             {
                 if ((xCursor <= arenaSize && xCursor > 0) && (yCursor <= arenaSize && yCursor > 0))
                 {
@@ -110,7 +114,7 @@ public class SpawnSystem : MonoBehaviour
             if (Input.GetButtonDown("LMB"))
             {
                 RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector3.forward, 0);
-                if (hit && hit.transform.tag == "Units")
+                if (hit && (hit.transform.tag == "Units" || hit.transform.tag == "Corpses"))
                 {
                     draggedObject = hit.collider.gameObject;
                 }
@@ -126,6 +130,44 @@ public class SpawnSystem : MonoBehaviour
             if (Input.GetButtonUp("LMB"))
             {
                 draggedObject = null;
+            }
+        }
+
+        // Режим киллера 
+        if (chosenSpawnMode == "Kill")
+        {
+            if (Input.GetButtonDown("LMB"))
+            {
+                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector3.forward, 0, 1 << LayerMask.NameToLayer("Units")); //чел на форуме написал что нужен битшифт для лейермаска без него не работает почему то =\
+                //убиваем
+                if (hit && hit.transform.tag == "Units")
+                {
+                    hit.transform.tag = "Corpses";
+
+                    hit.transform.gameObject.GetComponent<SpriteRenderer>().color = new Color(hit.transform.gameObject.GetComponent<SpriteRenderer>().color.r,
+                                                                                                hit.transform.gameObject.GetComponent<SpriteRenderer>().color.g,
+                                                                                                hit.transform.gameObject.GetComponent<SpriteRenderer>().color.b,
+                                                                                                0.3f);
+                    Color c = hit.transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().color;
+                    c = new Color(c.r, c.g, c.b, 0.3f);
+                    hit.transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().color = c;
+                }
+                else
+                {
+                    //Воскрешаем
+                    if (hit && hit.transform.tag == "Corpses")
+                    {
+                        hit.transform.tag = "Units";
+                        hit.transform.gameObject.GetComponent<SpriteRenderer>().color = new Color(hit.transform.gameObject.GetComponent<SpriteRenderer>().color.r,
+                                                                                                    hit.transform.gameObject.GetComponent<SpriteRenderer>().color.g,
+                                                                                                    hit.transform.gameObject.GetComponent<SpriteRenderer>().color.b,
+                                                                                                    1f);
+                        Color c = hit.transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().color;
+                        c = new Color(c.r, c.g, c.b, 1f);
+                        hit.transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().color = c;
+                    }
+                }
+                
             }
         }
 
@@ -159,6 +201,10 @@ public class SpawnSystem : MonoBehaviour
         {
             i = 3;
             j = 0;
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            i = 4;
         }
 
         // Выбор объекта через прокрутку, работает нормально
@@ -219,6 +265,13 @@ public class SpawnSystem : MonoBehaviour
 
             SpawnModeText.text = "Mode: Height Mapping";
             spawnObjectText.text = "Height: " + j;  
+        }
+        if (i == 4)
+        {
+            chosenSpawnMode = "Kill";
+
+            SpawnModeText.text = "Mode: KILLING";
+            spawnObjectText.text = "";
         }
 
     }

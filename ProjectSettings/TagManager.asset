@@ -8,6 +8,7 @@ TagManager:
   - Units
   - Numbers
   - Height
+  - Corpses
   layers:
   - Default
   - TransparentFX
