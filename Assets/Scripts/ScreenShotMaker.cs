@@ -20,8 +20,8 @@ public class ScreenShotMaker : MonoBehaviour {
     void Start ()
     {
         //screenShotCamera.enabled = false;
+        System.IO.Directory.CreateDirectory(Application.dataPath + "/screenshots");
 
-        
     }
 	
 	// Update is called once per frame
@@ -52,10 +52,13 @@ public class ScreenShotMaker : MonoBehaviour {
 
         // Wait for screen rendering to complete
         yield return new WaitForEndOfFrame();
-        
-        // Take screenshot
-        ScreenCapture.CaptureScreenshot(time, 1);
 
+
+        string path;
+        path = "screenshots/" + time;
+        // Take screenshot
+        ScreenCapture.CaptureScreenshot(path, 1);
+        Debug.Log(path);
         // Wait for screen rendering to complete
         yield return new WaitForEndOfFrame();
 

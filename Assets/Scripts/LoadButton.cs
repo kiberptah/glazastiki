@@ -28,13 +28,23 @@ public class LoadButton : MonoBehaviour
     public void GetSaveList()
     {
         //List<string> loadFiles = new List<string>();
-        DirectoryInfo di = new DirectoryInfo(SaveSystem.savePath);
 
+        //Очищаем список во избежание клонов
+        List<GameObject> todelete = new List<GameObject>();
+        todelete.AddRange(GameObject.FindGameObjectsWithTag("SaveFileElement"));
+        foreach (GameObject o in todelete)
+        {
+            Destroy(o);
+        }
+        //
+
+        DirectoryInfo di = new DirectoryInfo(SaveSystem.savePath);        
         foreach (FileInfo file in di.GetFiles())
         {
             //loadFiles.Add(file.Name);
 
             GameObject s = Instantiate(loadFilePrefab, content.transform.position, Quaternion.identity, content.transform);
+            s.tag = "SaveFileElement";
 
             Transform t = s.transform.Find("TitleText");
             t.GetComponent<Text>().text = file.Name;

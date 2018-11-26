@@ -9,6 +9,7 @@ TagManager:
   - Numbers
   - Height
   - Corpses
+  - SaveFileElement
   layers:
   - Default
   - TransparentFX

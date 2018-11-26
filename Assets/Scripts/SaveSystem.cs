@@ -48,6 +48,7 @@ public class SaveSystem : MonoBehaviour {
         objectForSave = new List<GameObject>();
         objectForSave.AddRange(GameObject.FindGameObjectsWithTag("Walls"));
         objectForSave.AddRange(GameObject.FindGameObjectsWithTag("Units"));
+        objectForSave.AddRange(GameObject.FindGameObjectsWithTag("Corpses"));
         objectForSave.AddRange(GameObject.FindGameObjectsWithTag("Height"));
 
 
@@ -76,7 +77,8 @@ public class SaveSystem : MonoBehaviour {
             List<GameObject> objectToDelete = new List<GameObject>();
             objectToDelete.AddRange(GameObject.FindGameObjectsWithTag("Walls"));
             objectToDelete.AddRange(GameObject.FindGameObjectsWithTag("Units"));
-            objectToDelete.AddRange(GameObject.FindGameObjectsWithTag("Units"));
+            objectForSave.AddRange(GameObject.FindGameObjectsWithTag("Corpses"));
+            objectToDelete.AddRange(GameObject.FindGameObjectsWithTag("Height"));
 
             foreach (GameObject o in objectToDelete)
             {
