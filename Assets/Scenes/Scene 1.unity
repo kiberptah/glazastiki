@@ -6911,6 +6911,7 @@ GameObject:
   - component: {fileID: 1448461734}
   - component: {fileID: 1448461736}
   - component: {fileID: 1448461735}
+  - component: {fileID: 1448461737}
   m_Layer: 11
   m_Name: Number
   m_TagString: Untagged
@@ -6947,8 +6948,8 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.39215687}
+  m_Material: {fileID: 2100000, guid: e16537e2a7d4b974aa888bc27ce494b6, type: 3}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.5019608}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -6976,6 +6977,19 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1448461733}
   m_CullTransparentMesh: 0
+--- !u!114 &1448461737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1448461733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e1ed1f631d35f846a889d1620646e9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xCursor: 0
+  yCursor: 0
 --- !u!1 &1517924344
 GameObject:
   m_ObjectHideFlags: 0

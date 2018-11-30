@@ -32,18 +32,22 @@ public class changingColor : MonoBehaviour {
 
         if (hit)
         {
+            //Debug.Log("HIT");
             //Debug.Log((hit.transform.GetComponent<SpriteRenderer>().color.grayscale));
             if (hit.transform.GetComponent<SpriteRenderer>().color.grayscale < 0.5f)
             {
                 gameObject.GetComponent<Text>().color = new Color(255f, 255f, 255f, gameObject.GetComponent<Text>().color.a);
+                //Debug.Log("HEIGHT COLOR SET TO WHITE");
             }
             if (hit.transform.GetComponent<SpriteRenderer>().color.grayscale >= 0.5f)
             {
                 gameObject.GetComponent<Text>().color = new Color(0, 0, 0, gameObject.GetComponent<Text>().color.a);
+                //Debug.Log("HEIGHT COLOR SET TO BLACK");
             }
         }
         else
         {
+            //Debug.Log("MISS");
             gameObject.GetComponent<Text>().color = new Color(0, 0, 0, gameObject.GetComponent<Text>().color.a);
         }
     }
