@@ -77,7 +77,7 @@ public class SaveSystem : MonoBehaviour {
             List<GameObject> objectToDelete = new List<GameObject>();
             objectToDelete.AddRange(GameObject.FindGameObjectsWithTag("Walls"));
             objectToDelete.AddRange(GameObject.FindGameObjectsWithTag("Units"));
-            objectForSave.AddRange(GameObject.FindGameObjectsWithTag("Corpses"));
+            objectToDelete.AddRange(GameObject.FindGameObjectsWithTag("Corpses"));
             objectToDelete.AddRange(GameObject.FindGameObjectsWithTag("Height"));
 
             foreach (GameObject o in objectToDelete)
@@ -101,7 +101,7 @@ public class SaveSystem : MonoBehaviour {
                     = Instantiate(objectToSpawn,
                             new Vector3(element.coordinates[0], element.coordinates[1], 1), Quaternion.identity);
                 newObject.tag = element.tag;
-                if (newObject.tag == "Units")
+                if (newObject.tag == "Units" || newObject.tag == "Corpses")
                 {
                     newObject.GetComponent<numeration>().number = element.number;
                     newObject.GetComponent<changeType>().unitType = element.unitType;                 
@@ -112,8 +112,18 @@ public class SaveSystem : MonoBehaviour {
                     Debug.Log(element.number);
                     //Debug.Log(newObject.GetComponent<numeration>().number);
                 }
-                //Debug.Log("LOADED");
-            }
+                if (newObject.tag == "Corpses")
+                {
+                    newObject.transform.gameObject.GetComponent<SpriteRenderer>().color = new Color(newObject.transform.gameObject.GetComponent<SpriteRenderer>().color.r,
+                                                                                                newObject.transform.gameObject.GetComponent<SpriteRenderer>().color.g,
+                                                                                                newObject.transform.gameObject.GetComponent<SpriteRenderer>().color.b,
+                                                                                                0.3f);
+                    Color c = newObject.transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().color;
+                    c = new Color(c.r, c.g, c.b, 0.3f);
+                    newObject.transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().color = c;
+                }
+                    //Debug.Log("LOADED");
+                }
             
         }
     }
@@ -140,7 +150,7 @@ public class ObjectData
 
         coordinates[2] = obj.transform.rotation.z;
 
-        if (obj.tag == "Units")
+        if (obj.tag == "Units" || obj.tag == "Corpses")
         {
             number = obj.GetComponent<numeration>().number;
             unitType = obj.GetComponent<changeType>().unitType;

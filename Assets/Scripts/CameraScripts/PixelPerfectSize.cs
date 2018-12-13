@@ -25,7 +25,7 @@ public class PixelPerfectSize : MonoBehaviour {
         }
         if (Screen.height > 700)
         {
-            ppu = 36;
+            ppu = 24;
         }
         if (Screen.height == 1080)
         {

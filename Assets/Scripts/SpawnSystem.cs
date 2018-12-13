@@ -4,10 +4,14 @@ using UnityEngine;
 
 using UnityEngine.UI;
 
+
+
 public class SpawnSystem : MonoBehaviour
 {
+    public GameObject Grid;
 
-    private int arenaSize = 26;
+    private int xSize;
+    private int ySize;
 
     ///general
     public GameObject objectToSpawn;
@@ -40,6 +44,10 @@ public class SpawnSystem : MonoBehaviour
 
     void Start()
     {
+        xSize = Grid.GetComponent<GridGeneration>().xSize;
+        ySize = Grid.GetComponent<GridGeneration>().ySize;
+
+
         minHeight = -5;
         maxHeight = 5;
     }
@@ -92,7 +100,7 @@ public class SpawnSystem : MonoBehaviour
                 || (Input.GetButtonDown("LMB") && (chosenSpawnMode == "Units"))
                 )
             {
-                if ((xCursor <= arenaSize && xCursor > 0) && (yCursor <= arenaSize && yCursor > 0))
+                if ((xCursor < xSize && xCursor >= 0) && (yCursor < ySize && yCursor >= 0))
                 {
                     if (chosenSpawnMode == "Height") // ебанатсво для карты высот
                     {
@@ -121,7 +129,7 @@ public class SpawnSystem : MonoBehaviour
             }
             if (Input.GetButton("LMB") && draggedObject != null)
             {
-                if ((xCursor <= arenaSize && xCursor > 0) && (yCursor <= arenaSize && yCursor > 0))
+                if ((xCursor < xSize && xCursor >= 0) && (yCursor < ySize && yCursor >= 0))
                 {
                     draggedObject.transform.position = new Vector3(xCursor, yCursor, 1); // Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     draggedObject.transform.position = new Vector3(draggedObject.transform.position.x, draggedObject.transform.position.y, 1);
@@ -144,6 +152,8 @@ public class SpawnSystem : MonoBehaviour
                 {
                     hit.transform.tag = "Corpses";
 
+
+                    //Хули так сложно, надо упростить наверное
                     hit.transform.gameObject.GetComponent<SpriteRenderer>().color = new Color(hit.transform.gameObject.GetComponent<SpriteRenderer>().color.r,
                                                                                                 hit.transform.gameObject.GetComponent<SpriteRenderer>().color.g,
                                                                                                 hit.transform.gameObject.GetComponent<SpriteRenderer>().color.b,
