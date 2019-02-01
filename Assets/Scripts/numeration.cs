@@ -23,7 +23,7 @@ public class numeration : MonoBehaviour {
 
         //number = 0;
 
-        if (number > 0 && number < 9)
+        if (number > 0 && number <= 9)
             unitNumber.text = number.ToString();
     }
 	
@@ -54,8 +54,13 @@ public class numeration : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Alpha9))
             number = 9;
 
-        if (number > 0 && number < 9)
+        if (number > 0 && number <= 9)
             unitNumber.text = number.ToString();
+
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+            number = 0;
+        if (number == 0)
+            unitNumber.text = "";
 
 
 

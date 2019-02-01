@@ -152,6 +152,7 @@ public class GridGeneration : MonoBehaviour
         //GridTexture.GetComponent<SpriteRenderer>().color = new Color(36, 43, 51, 1);
 
         BGtexture.transform.localScale = new Vector3(xSize, ySize, 1);
+        BGtexture.GetComponent<SpriteRenderer>().sortingLayerName = "BG";
         Instantiate(BGtexture, new Vector3(-.5f, -.5f, 1), BGtexture.transform.rotation);
     }
 }
