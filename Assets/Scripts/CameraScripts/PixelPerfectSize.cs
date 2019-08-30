@@ -5,10 +5,9 @@ using UnityEngine;
 public class PixelPerfectSize : MonoBehaviour {
 
     public Camera theCamera;
-    public float height;
-    public float width;
+    public float maxsize;
 
-    private int ppu = 32;
+    public GameObject Grid;
 
 	// Use this for initialization
 	void Start ()
@@ -18,23 +17,16 @@ public class PixelPerfectSize : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update ()
-    {
-        if (Screen.height <= 700)
+    {       
+        if (Grid.GetComponent<GridGeneration>().ySize > Grid.GetComponent<GridGeneration>().xSize)
         {
-            ppu = 24;
+            maxsize = Grid.GetComponent<GridGeneration>().ySize;
         }
-        if (Screen.height > 700)
+        else
         {
-            ppu = 24;
+            maxsize = Grid.GetComponent<GridGeneration>().xSize;
         }
-        if (Screen.height == 1080)
-        {
-            ppu = 38;
-        }
-
-        height = Screen.height;
-        width = Screen.width;
-
-        theCamera.orthographicSize = height / ppu * 0.5f;
+        
+        theCamera.orthographicSize =  Mathf.Ceil((maxsize + 3f) / 2f); // еще 3 клетки всегда занимают координаты
     }
 }

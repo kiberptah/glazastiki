@@ -10,6 +10,10 @@ TagManager:
   - Height
   - Corpses
   - SaveFileElement
+  - Tiles
+  - FX
+  - Misc
+  - UI_Thumbnail
   layers:
   - Default
   - TransparentFX
@@ -19,13 +23,13 @@ TagManager:
   - UI
   - 
   - 
-  - Walls
+  - Tiles
   - Units
   - Numbers
   - Height
-  - 
-  - 
-  - 
+  - SpawnedObjects
+  - Misc
+  - FX
   - 
   - 
   - 

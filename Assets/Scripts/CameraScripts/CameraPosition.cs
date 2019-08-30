@@ -22,9 +22,9 @@ public class CameraPosition : MonoBehaviour {
 
     void CenterCamera()
     {
-        xPos = Grid.GetComponent<GridGeneration>().xSize / 2;
-        yPos = Grid.GetComponent<GridGeneration>().ySize / 2;
+        xPos = (Grid.GetComponent<GridGeneration>().xSize) * 0.5f - 0.5f;
+        yPos = (Grid.GetComponent<GridGeneration>().ySize) * 0.5f - 0.5f; // смещение потому что центр левой нижней клетки расположен на х 0.5 у 0.5    
 
-        gameObject.transform.position = new Vector3(xPos, yPos, -10);
+        gameObject.transform.position = new Vector3(xPos, yPos, -10); 
     }
 }

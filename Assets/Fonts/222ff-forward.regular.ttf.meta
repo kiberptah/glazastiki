@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-guid: e16537e2a7d4b974aa888bc27ce494b6
+guid: 4a67f57248c7e0a44ab30b1dd4e98f58
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
-  fontSize: 500
+  fontSize: 300
   forceTextureCase: -1
   characterSpacing: 0
   characterPadding: 1
@@ -12,11 +12,11 @@ TrueTypeFontImporter:
   fontNames:
   - FFF Forward
   fallbackFontReferences: []
-  customCharacters: 1
+  customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1
-  useLegacyBoundsCalculation: 1
-  shouldRoundAdvanceValue: 0
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
   userData: 
   assetBundleName: 
   assetBundleVariant: 
