@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class UIThumbnail : MonoBehaviour, IPointerClickHandler
 {
-    GameObject GameSystems;
+    GameObject SpawnUI;
     public GameObject Area;
 
     public string pageType = "Tiles";
@@ -17,7 +17,7 @@ public class UIThumbnail : MonoBehaviour, IPointerClickHandler
     // Start is called before the first frame update
     void Start()
     {
-        GameSystems = GameObject.Find("GameSystems");
+        SpawnUI = GameObject.Find("SpawnUI");
     }
 
     // Update is called once per frame
@@ -28,7 +28,7 @@ public class UIThumbnail : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        GameSystems.GetComponent<NewSpawnSystem>().SelectPage(pageType, gameObject);     
+        SpawnUI.GetComponent<SpawnMenuController>().SelectPage(pageType, gameObject);
     }
 
     void colorChange()

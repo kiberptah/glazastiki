@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class PauseSystem : MonoBehaviour {
 
+    GameObject GameSystems;
+
     public Transform canvasPause;
 
     public Transform canvasPauseMenu;
@@ -37,7 +39,9 @@ public class PauseSystem : MonoBehaviour {
     public void PauseGame()
     {   
         //canvasPause.gameObject.SetActive(!canvasPause.gameObject.activeInHierarchy);
-        gameObject.GetComponent<SpawnSystem>().enabled = !gameObject.GetComponent<SpawnSystem>().enabled; //отключение спауна объектов
+        gameObject.GetComponent<NewSpawnSystem>().enabled = !gameObject.GetComponent<NewSpawnSystem>().enabled; //отключение спауна объектов
+        GameSystems = GameObject.Find("GameSystems");
+        GameSystems.GetComponent<GameStatus>().isGamePaused = !GameSystems.GetComponent<GameStatus>().isGamePaused;
 
         if (canvasPause.gameObject.activeSelf == true)
         {

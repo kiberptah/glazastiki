@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Vision : MonoBehaviour {
-
+    /*
     public GameObject gameSystems;
 
     void Start ()
@@ -93,5 +93,5 @@ public class Vision : MonoBehaviour {
             Debug.Log("RETURN: position " + (a + 1) + " = " + connector.GetPosition(a+1));
         }
         */
-    }
+    
 }

@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class NewSpawnSystem : MonoBehaviour
 {
     public GameObject Grid;
+    GameObject GameSystems;
 
     private int xSize;
     private int ySize;
@@ -15,13 +16,6 @@ public class NewSpawnSystem : MonoBehaviour
     public float yCursor;
 
     public GameObject spawnMenu;
-    public GameObject row;
-    public GameObject cell;
-
-    public GameObject selectTiles;
-    public GameObject selectUnits;
-    public GameObject selectMisc;
-    public GameObject selectEffects;
 
     public GameObject[] tiles = new GameObject[2];
     public GameObject[] units = new GameObject[2];
@@ -33,10 +27,11 @@ public class NewSpawnSystem : MonoBehaviour
 
     void Start()
     {
+        GameSystems = GameObject.Find("GameSystems");
+
         xSize = Grid.GetComponent<GridGeneration>().xSize;
         ySize = Grid.GetComponent<GridGeneration>().ySize;
 
-        OrganiseRows();
     }
 
     // Update is called once per frame
@@ -46,12 +41,13 @@ public class NewSpawnSystem : MonoBehaviour
 
         if (Input.GetButtonDown("E"))
         {
-            spawnMenu.active = !spawnMenu.active;
+            spawnMenu.active = !spawnMenu.active;           
+            GameSystems.GetComponent<GameStatus>().isGamePaused = !GameSystems.GetComponent<GameStatus>().isGamePaused;
         }
 
-        //SelectPage();
         Spawner();
 
+       
     }
 
     private void mouseTracking()
@@ -68,50 +64,13 @@ public class NewSpawnSystem : MonoBehaviour
         yCursor = Mathf.Round(mouseposition.y);
     }
 
-    void OrganiseRows()
+    
+
+
+    public void SpawnObject(int number, string mode)
     {
-        /// Tiles     
-        for (int i = 0; i < Mathf.Ceil(tiles.Length / 6f); ++i)
-        {
-            GameObject newRow = Instantiate(row, row.transform.position, Quaternion.identity, selectTiles.transform.GetChild(0).transform);
-
-            for (int j = 0; j < 6; j++) // в каждой строке 6 слотов задано графически 1 дочерний по умолчанию
-            {
-
-                GameObject newCell = Instantiate(cell, cell.transform.position, Quaternion.identity, newRow.transform);
-                newCell.GetComponent<ObjectCellData>().cellNumber = i + j;
-
-                if (j < tiles.Length)
-                {
-                    newCell.gameObject.transform.GetChild(0).GetComponent<Image>().sprite = tiles[j + 6 * i].GetComponent<SpriteRenderer>().sprite;
-                    newCell.gameObject.transform.GetChild(0).GetComponent<Image>().color = tiles[j + 6 * i].GetComponent<SpriteRenderer>().color;
-                }
-            }
-        }
-        /// Units
-        for (int i = 0; i < Mathf.Ceil(units.Length / 6f); ++i)
-        {
-            GameObject newRow = Instantiate(row, row.transform.position, Quaternion.identity, selectUnits.transform.GetChild(0).transform);
-
-            for (int j = 0; j < 6; j++) // в каждой строке 6 слотов задано графически 1 дочерний по умолчанию
-            {
-
-                GameObject newCell = Instantiate(cell, cell.transform.position, Quaternion.identity, newRow.transform);
-                newCell.GetComponent<ObjectCellData>().cellNumber = i + j;
-
-                if (j < units.Length)
-                {
-                    newCell.gameObject.transform.GetChild(0).GetComponent<Image>().sprite = units[j + 6 * i].GetComponent<SpriteRenderer>().sprite;
-                    newCell.gameObject.transform.GetChild(0).GetComponent<Image>().color = units[j + 6 * i].GetComponent<SpriteRenderer>().color;
-                }
-            }
-        }
-    }
-
-
-    public void SpawnObject(int number)
-    {
-        switch(spawnMode)
+        spawnMode = mode;
+        switch (spawnMode)
         {
             case "Tiles":
                 objectToSpawn = tiles[number];
@@ -136,7 +95,7 @@ public class NewSpawnSystem : MonoBehaviour
 
     void Spawner()
     {
-        if (!spawnMenu.activeSelf)
+        if (GameSystems.GetComponent<GameStatus>().isGamePaused == false)
         {
             if (Input.GetButton("LMB") && spawnMode != null)
             {
@@ -146,48 +105,28 @@ public class NewSpawnSystem : MonoBehaviour
                     if ((xCursor < xSize && xCursor >= 0) && (yCursor < ySize && yCursor >= 0))
                     {
                         GameObject newObject = Instantiate(objectToSpawn, new Vector3(xCursor, yCursor, 1), Quaternion.identity);
+                        Debug.Log(spawnMode);
                         newObject.tag = spawnMode;
+                        
                     }
                 }
             }
             if (Input.GetButton("RMB"))
             {
-                RaycastHit2D hit = Physics2D.Raycast(new Vector3(xCursor, yCursor, 1), Vector3.forward, 0, 1 << LayerMask.NameToLayer(spawnMode), 1 << LayerMask.NameToLayer(spawnMode));
+                RaycastHit2D hit = Physics2D.Raycast(new Vector3(xCursor, yCursor, 1), Vector3.forward, 0, 1 << LayerMask.NameToLayer(spawnMode));
                 if (hit)
                 {
                     Destroy(hit.collider.gameObject);
                 }
             }
+            if (Input.GetButton("SCROLLWHEEL"))
+            {
+                Debug.Log("object to spawn reset");
+                objectToSpawn = null;
+            }
         }
+        
     }
 
-    public void SelectPage(string page, GameObject Thumbnail)
-    {
-        spawnMode = page;
-
-        selectTiles.SetActive(false);
-        selectUnits.SetActive(false);
-        selectMisc.SetActive(false);
-        selectEffects.SetActive(false);
-
-        switch(spawnMode)
-        {
-            case "Tiles":
-                selectTiles.SetActive(true);
-                break;
-            case "Units":
-                selectUnits.SetActive(true);
-                break;
-            case "Misc":
-                selectMisc.SetActive(true);
-                break;
-            case "FX":
-                selectEffects.SetActive(true);
-                break;
-            default:
-                selectTiles.SetActive(true);
-                break;
-        }   
-
-    }
+    
 }

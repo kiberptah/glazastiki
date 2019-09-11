@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 // Данный скрипт нужен для дебага линий и для хранения глобальной переменной ВКЛ/ВЫКЛ отображение линий взгляда
 public class DrawLines : MonoBehaviour {
-
+    /*
     public bool ShowVisionLines;
     public Text visionInfo;
 
@@ -51,5 +51,5 @@ public class DrawLines : MonoBehaviour {
                     }
                 }
             }    
-    }
+    }*/
 }

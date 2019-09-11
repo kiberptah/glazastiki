@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class SpawnSystem : MonoBehaviour
 {
+    /*
     public GameObject Grid;
 
     private int xSize;
@@ -286,7 +287,10 @@ public class SpawnSystem : MonoBehaviour
 
     }
 
-
+     */
 
 }
 
+
+
+  

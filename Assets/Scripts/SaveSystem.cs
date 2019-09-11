@@ -46,7 +46,7 @@ public class SaveSystem : MonoBehaviour {
 
         //и стенки и юниты, всё это объекты...
         objectForSave = new List<GameObject>();
-        objectForSave.AddRange(GameObject.FindGameObjectsWithTag("Walls"));
+        objectForSave.AddRange(GameObject.FindGameObjectsWithTag("Tiles"));
         objectForSave.AddRange(GameObject.FindGameObjectsWithTag("Units"));
         objectForSave.AddRange(GameObject.FindGameObjectsWithTag("Corpses"));
         objectForSave.AddRange(GameObject.FindGameObjectsWithTag("Height"));
@@ -94,8 +94,8 @@ public class SaveSystem : MonoBehaviour {
             foreach (ObjectData element in data)
             {
                 //Debug.Log("Loading...");
-
-                GameObject objectToSpawn = GameObject.Find(element.type);
+                //Debug.Log("Prefabs/" + element.tag + "/" + element.type);
+                GameObject objectToSpawn = Resources.Load<GameObject>("Prefabs/" + element.tag + "/" + element.type); //= GameObject.Find(element.type);
                 //Debug.Log(element.type);
                 GameObject newObject
                     = Instantiate(objectToSpawn,
@@ -104,13 +104,12 @@ public class SaveSystem : MonoBehaviour {
                 if (newObject.tag == "Units" || newObject.tag == "Corpses")
                 {
                     newObject.GetComponent<numeration>().number = element.number;
-                    newObject.GetComponent<changeType>().unitType = element.unitType;                 
+                    //newObject.GetComponent<changeType>().unitType = element.unitType;                 
                 }
                 if (newObject.tag == "Height")
                 {
                     newObject.GetComponent<getNumberHeight>().number = element.number;
-                    Debug.Log(element.number);
-                    //Debug.Log(newObject.GetComponent<numeration>().number);
+                    //Debug.Log(element.number);
                 }
                 if (newObject.tag == "Corpses")
                 {
@@ -132,12 +131,13 @@ public class SaveSystem : MonoBehaviour {
 [Serializable]
 public class ObjectData
 {
+    //public string name;
     public float[] coordinates;
     public string type;
     public string tag;
 
     public int number; // для юнитов и высот
-    public int unitType; // для юнитов
+    //public int unitType; // для юнитов
 
     public ObjectData(GameObject obj)
     {
@@ -153,7 +153,7 @@ public class ObjectData
         if (obj.tag == "Units" || obj.tag == "Corpses")
         {
             number = obj.GetComponent<numeration>().number;
-            unitType = obj.GetComponent<changeType>().unitType;
+            //unitType = obj.GetComponent<changeType>().unitType;
         }
 
         if (obj.tag == "Height")

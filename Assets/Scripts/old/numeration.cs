@@ -7,27 +7,17 @@ using UnityEngine.UI;
 public class numeration : MonoBehaviour {
 
 
-    //public SpriteRenderer number;
-    //public Sprite[] numberSprites = new Sprite[9];
     private Text unitNumber;
     public int number;
 
-    // Use this for initialization
     void Start ()
     {
-        //Debug.Log(gameObject.GetComponentInChildren<Transform>().gameObject.GetComponentInChildren<Text>().text);
-
-        //number = gameObject.GetComponentInChildren<GameObject>().gameObject.GetComponentInChildren<Text>();
-
         unitNumber = gameObject.transform.GetChild(0).GetComponentInChildren<Text>();
-
-        //number = 0;
 
         if (number > 0 && number <= 9)
             unitNumber.text = number.ToString();
     }
 	
-	// Update is called once per frame
 	void Update ()
     {
 
