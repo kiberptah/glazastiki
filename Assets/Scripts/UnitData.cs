@@ -18,7 +18,7 @@ public class UnitData : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        SetNumber();
     }
 
     private void OnMouseOver()
@@ -42,15 +42,22 @@ public class UnitData : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha9))
             number = 9;
 
-        if (number > 0 && number <= 9)
-            unitNumber.text = number.ToString();
-
         if (Input.GetKeyDown(KeyCode.Alpha0))
             number = 0;
+        
+
+        //SetNumber();
+    }
+    private void SetNumber()
+    {
+
+        if (number > 0 && number <= 9)
+        {
+            unitNumber.text = number.ToString();
+        }
         if (number == 0)
+        {
             unitNumber.text = "";
-
-
-
+        }
     }
 }

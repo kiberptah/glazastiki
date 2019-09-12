@@ -22,8 +22,11 @@ public class NewSpawnSystem : MonoBehaviour
     public GameObject[] misc = new GameObject[2];
     public GameObject[] effects = new GameObject[2];
 
+    GameObject draggedObject = null;
     GameObject objectToSpawn = null;
     string spawnMode = "Tiles";
+
+
 
     void Start()
     {
@@ -97,6 +100,7 @@ public class NewSpawnSystem : MonoBehaviour
     {
         if (GameSystems.GetComponent<GameStatus>().isGamePaused == false)
         {
+            // Добовляем
             if (Input.GetButton("LMB") && spawnMode != null)
             {
                 RaycastHit2D hit = Physics2D.Raycast(new Vector3(xCursor, yCursor, 1), Vector3.forward, 0, 1 << LayerMask.NameToLayer(spawnMode));
@@ -105,12 +109,10 @@ public class NewSpawnSystem : MonoBehaviour
                     if ((xCursor < xSize && xCursor >= 0) && (yCursor < ySize && yCursor >= 0))
                     {
                         GameObject newObject = Instantiate(objectToSpawn, new Vector3(xCursor, yCursor, 1), Quaternion.identity);
-                        Debug.Log(spawnMode);
-                        newObject.tag = spawnMode;
-                        
                     }
                 }
             }
+            // Удоляем
             if (Input.GetButton("RMB"))
             {
                 RaycastHit2D hit = Physics2D.Raycast(new Vector3(xCursor, yCursor, 1), Vector3.forward, 0, 1 << LayerMask.NameToLayer(spawnMode));
@@ -119,14 +121,36 @@ public class NewSpawnSystem : MonoBehaviour
                     Destroy(hit.collider.gameObject);
                 }
             }
+            // Перемещаем
             if (Input.GetButton("SCROLLWHEEL"))
             {
                 Debug.Log("object to spawn reset");
                 objectToSpawn = null;
-            }
-        }
-        
-    }
 
-    
+
+                //GameObject draggedObject = null;
+                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector3.forward, 0);
+                if (hit && (hit.transform.tag == "Units" || hit.transform.tag == "Corpses"))
+                {
+                    draggedObject = hit.collider.gameObject;
+                }
+
+                if (draggedObject != null)
+                {
+                    if ((xCursor < xSize && xCursor >= 0) && (yCursor < ySize && yCursor >= 0))
+                    {
+                        Debug.Log(draggedObject.name);
+                        Debug.Log(xCursor + " " + yCursor);
+                        draggedObject.transform.position = new Vector3(xCursor, yCursor, 1); // Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        //draggedObject.transform.position = new Vector3(draggedObject.transform.position.x, draggedObject.transform.position.y, 1);
+                    }
+                }
+            }      
+            if(Input.GetButtonUp("SCROLLWHEEL"))
+            {
+                draggedObject = null;
+                Debug.Log("dragnull");
+            }
+        }    
+    }    
 }

@@ -84,7 +84,7 @@ public class LinesBetweenUnits : MonoBehaviour
         centerBetweenUnits.x = (U1Coord.x + U2Coord.x) * 0.5f;
         centerBetweenUnits.y = (U1Coord.y + U2Coord.y) * 0.5f;
         centerBetweenUnits.z = 0;
-        Debug.Log(centerBetweenUnits);
+        //Debug.Log(centerBetweenUnits);
         ///нужно виртуально сдвинуть один из юнитов ближе к другому 
         ///т.к. нам нужно не расстояние между центрами считть а количество клеток между ними
         if (U1Coord.x > U2Coord.x)

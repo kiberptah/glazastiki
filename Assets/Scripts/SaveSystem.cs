@@ -26,8 +26,6 @@ public class SaveSystem : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-        //changeLoadName();
-
         if (Input.GetKeyDown(KeyCode.F5))
         {            
             Save();
@@ -41,9 +39,6 @@ public class SaveSystem : MonoBehaviour {
 
     public static void Save()
     {
-        //Debug.Log("Save");
-        //savePath = Application.dataPath + "/saves/";
-
         //и стенки и юниты, всё это объекты...
         objectForSave = new List<GameObject>();
         objectForSave.AddRange(GameObject.FindGameObjectsWithTag("Tiles"));
@@ -54,15 +49,16 @@ public class SaveSystem : MonoBehaviour {
 
         // с е р и а л и з а ц и я объектов
         int num = 0;
-        ObjectData[] data = new ObjectData[objectForSave.Capacity];
+        ObjectData[] data = new ObjectData[objectForSave.Count];
         foreach (GameObject element in objectForSave)
         {
-            data[num] = new ObjectData(element);           
-
+            data[num] = new ObjectData(element);
             ++num;
         }
         BinaryFormatter bf = new BinaryFormatter();
         FileStream stream = new FileStream(savePath + saveName + ".glaz", FileMode.Create);
+        //Debug.Log(data.Length + " saved");
+
 
         bf.Serialize(stream, data);
         stream.Close();
@@ -76,6 +72,8 @@ public class SaveSystem : MonoBehaviour {
             //Очищаем сцену перед загрузкой сохранения
             List<GameObject> objectToDelete = new List<GameObject>();
             objectToDelete.AddRange(GameObject.FindGameObjectsWithTag("Walls"));
+            objectToDelete.AddRange(GameObject.FindGameObjectsWithTag("Tiles"));
+
             objectToDelete.AddRange(GameObject.FindGameObjectsWithTag("Units"));
             objectToDelete.AddRange(GameObject.FindGameObjectsWithTag("Corpses"));
             objectToDelete.AddRange(GameObject.FindGameObjectsWithTag("Height"));
@@ -90,26 +88,23 @@ public class SaveSystem : MonoBehaviour {
             FileStream stream = new FileStream(savePath + loadName, FileMode.Open);
 
             ObjectData[] data = bf.Deserialize(stream) as ObjectData[];
+            //Debug.Log(data.Length + " loaded");
             stream.Close();
+
             foreach (ObjectData element in data)
             {
-                //Debug.Log("Loading...");
-                //Debug.Log("Prefabs/" + element.tag + "/" + element.type);
-                GameObject objectToSpawn = Resources.Load<GameObject>("Prefabs/" + element.tag + "/" + element.type); //= GameObject.Find(element.type);
-                //Debug.Log(element.type);
-                GameObject newObject
-                    = Instantiate(objectToSpawn,
-                            new Vector3(element.coordinates[0], element.coordinates[1], 1), Quaternion.identity);
-                newObject.tag = element.tag;
+                GameObject objectToSpawn = Resources.Load<GameObject>("Prefabs/" + element.tag + "/" + element.type);
+                GameObject newObject;
+                newObject = Instantiate(objectToSpawn,
+                            new Vector3(element.coordinates[0], element.coordinates[1], element.coordinates[2]), Quaternion.identity);
+
                 if (newObject.tag == "Units" || newObject.tag == "Corpses")
                 {
-                    newObject.GetComponent<numeration>().number = element.number;
-                    //newObject.GetComponent<changeType>().unitType = element.unitType;                 
+                    newObject.GetComponent<UnitData>().number = element.number;
                 }
                 if (newObject.tag == "Height")
                 {
-                    newObject.GetComponent<getNumberHeight>().number = element.number;
-                    //Debug.Log(element.number);
+                    //newObject.GetComponent<getNumberHeight>().number = element.number;
                 }
                 if (newObject.tag == "Corpses")
                 {
@@ -131,13 +126,11 @@ public class SaveSystem : MonoBehaviour {
 [Serializable]
 public class ObjectData
 {
-    //public string name;
     public float[] coordinates;
     public string type;
     public string tag;
 
-    public int number; // для юнитов и высот
-    //public int unitType; // для юнитов
+    public int number; // для юнитов и мб высот
 
     public ObjectData(GameObject obj)
     {
@@ -147,13 +140,11 @@ public class ObjectData
         coordinates = new float[3];
         coordinates[0] = obj.transform.position.x;
         coordinates[1] = obj.transform.position.y;
-
         coordinates[2] = obj.transform.rotation.z;
 
         if (obj.tag == "Units" || obj.tag == "Corpses")
         {
-            number = obj.GetComponent<numeration>().number;
-            //unitType = obj.GetComponent<changeType>().unitType;
+            number = obj.GetComponent<UnitData>().number;
         }
 
         if (obj.tag == "Height")
