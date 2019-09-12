@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class GridGeneration : MonoBehaviour
 {
+    GameObject GameSystems;
 
     public GameObject GridSample;
     public GameObject FrameSample;
@@ -22,6 +23,7 @@ public class GridGeneration : MonoBehaviour
 
     void Start()
     {
+        GameSystems = GameObject.Find("GameSystems");
         //xSize = ySize = 26;
         GenerateGrid();
         GenerateLetters();
@@ -46,6 +48,7 @@ public class GridGeneration : MonoBehaviour
             {
                 GameObject newTile = Instantiate(GridSample, new Vector3(x, y, 1), GridSample.transform.rotation);     
                 newTile.transform.SetParent(gameObject.transform);
+                newTile.GetComponent<SpriteRenderer>().color = GameSystems.GetComponent<ColorSystem>().gridColor;
             }
         }
 
@@ -61,12 +64,16 @@ public class GridGeneration : MonoBehaviour
             newFramePiece.transform.Rotate(new Vector3 (0, 0, -90));
             newFramePiece = Instantiate(newFramePiece, new Vector3(x, ySize, 1), FrameSample.transform.rotation);
             newFramePiece.transform.SetParent(gameObject.transform);
-            
+            newFramePiece.GetComponent<SpriteRenderer>().color = GameSystems.GetComponent<ColorSystem>().gridColor;
+
+
             FrameSample.transform.rotation = Quaternion.LookRotation(transform.forward);
             newFramePiece = FrameSample;
             newFramePiece.transform.Rotate(new Vector3(0, 0, 90));
             newFramePiece = Instantiate(newFramePiece, new Vector3(x, -1, 1), FrameSample.transform.rotation);
             newFramePiece.transform.SetParent(gameObject.transform);
+            newFramePiece.GetComponent<SpriteRenderer>().color = GameSystems.GetComponent<ColorSystem>().gridColor;
+
         }
         for (int y = 0; y < ySize; ++y)
         {
@@ -75,14 +82,18 @@ public class GridGeneration : MonoBehaviour
             newFramePiece.transform.Rotate(new Vector3(0, 0, 0));
             newFramePiece = Instantiate(newFramePiece, new Vector3(-1, y, 1), FrameSample.transform.rotation);
             newFramePiece.transform.SetParent(gameObject.transform);
-            
+            newFramePiece.GetComponent<SpriteRenderer>().color = GameSystems.GetComponent<ColorSystem>().gridColor;
+
+
 
             FrameSample.transform.rotation = Quaternion.LookRotation(transform.forward);
             newFramePiece = FrameSample;
             newFramePiece.transform.Rotate(new Vector3(0, 0, 180));
             newFramePiece = Instantiate(newFramePiece, new Vector3(xSize, y, 1), FrameSample.transform.rotation);
             newFramePiece.transform.SetParent(gameObject.transform);
-            
+            newFramePiece.GetComponent<SpriteRenderer>().color = GameSystems.GetComponent<ColorSystem>().gridColor;
+
+
         }
 
         //FrameSample.transform.rotation = Quaternion.LookRotation(transform.forward);
@@ -118,11 +129,14 @@ public class GridGeneration : MonoBehaviour
             newLetter.alignment = TextAnchor.MiddleLeft;
             newLetter = Instantiate(Letter, new Vector3(-1.5f, y, 1), Letter.transform.rotation);            
             newLetter.transform.SetParent(LetterCanvas.transform);
+            newLetter.color = GameSystems.GetComponent<ColorSystem>().gridLettersColor;
+    
 
             newLetter.alignment = TextAnchor.MiddleRight;
             newLetter = Instantiate(Letter, new Vector3(xSize + .5f, y, 1), Letter.transform.rotation);
             newLetter.transform.SetParent(LetterCanvas.transform);
-  
+
+            newLetter.color = GameSystems.GetComponent<ColorSystem>().gridLettersColor;
             ++X;
         }
         
@@ -139,9 +153,12 @@ public class GridGeneration : MonoBehaviour
 
             newLetter = Instantiate(Letter, new Vector3(x, ySize + .5f, 1), Letter.transform.rotation);
             newLetter.transform.SetParent(LetterCanvas.transform);
+            newLetter.color = GameSystems.GetComponent<ColorSystem>().gridLettersColor;
 
             newLetter = Instantiate(Letter, new Vector3(x, -1.5f, 1), Letter.transform.rotation);
             newLetter.transform.SetParent(LetterCanvas.transform);
+
+            newLetter.color = GameSystems.GetComponent<ColorSystem>().gridLettersColor;
         }
     }
 
@@ -149,6 +166,8 @@ public class GridGeneration : MonoBehaviour
     void GridBackGround()
     {
         GameObject BGtexture = GridTexture;
+
+        BGtexture.GetComponent<SpriteRenderer>().color = GameSystems.GetComponent<ColorSystem>().gridBGColor;
         //GridTexture.GetComponent<SpriteRenderer>().color = new Color(36, 43, 51, 1);
 
         BGtexture.transform.localScale = new Vector3(xSize, ySize, 1);

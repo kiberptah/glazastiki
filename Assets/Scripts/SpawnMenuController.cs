@@ -80,6 +80,43 @@ public class SpawnMenuController : MonoBehaviour
                 }
             }
         }
+        /// Misc
+        for (int i = 0; i < Mathf.Ceil(misc.Length / 6f); ++i)
+        {
+            GameObject newRow = Instantiate(row, row.transform.position, Quaternion.identity, selectMisc.transform.GetChild(0).transform);
+
+            for (int j = 0; j < 6; j++) // в каждой строке 6 слотов задано графически 1 дочерний по умолчанию
+            {
+
+                GameObject newCell = Instantiate(cell, cell.transform.position, Quaternion.identity, newRow.transform);
+                newCell.GetComponent<ObjectCellData>().cellNumber = i + j;
+
+                if (j < misc.Length)
+                {
+                    newCell.gameObject.transform.GetChild(0).GetComponent<Image>().sprite = misc[j + 6 * i].GetComponent<SpriteRenderer>().sprite;
+                    newCell.gameObject.transform.GetChild(0).GetComponent<Image>().color = misc[j + 6 * i].GetComponent<SpriteRenderer>().color;
+                }
+            }
+        }
+
+        /// FX
+        for (int i = 0; i < Mathf.Ceil(effects.Length / 6f); ++i)
+        {
+            GameObject newRow = Instantiate(row, row.transform.position, Quaternion.identity, selectEffects.transform.GetChild(0).transform);
+
+            for (int j = 0; j < 6; j++) // в каждой строке 6 слотов задано графически 1 дочерний по умолчанию
+            {
+
+                GameObject newCell = Instantiate(cell, cell.transform.position, Quaternion.identity, newRow.transform);
+                newCell.GetComponent<ObjectCellData>().cellNumber = i + j;
+
+                if (j < effects.Length)
+                {
+                    newCell.gameObject.transform.GetChild(0).GetComponent<Image>().sprite = effects[j + 6 * i].GetComponent<SpriteRenderer>().sprite;
+                    newCell.gameObject.transform.GetChild(0).GetComponent<Image>().color = effects[j + 6 * i].GetComponent<SpriteRenderer>().color;
+                }
+            }
+        }
     }
 
     public void SelectPage(string page, GameObject Thumbnail)

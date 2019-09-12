@@ -8,6 +8,7 @@ public class UnitData : MonoBehaviour
 {
     private Text unitNumber;
     public int number;
+    public string team;
 
     void Start()
     {

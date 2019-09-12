@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 4004837997206187423}
   - component: {fileID: 4004837997206187421}
   - component: {fileID: 4004837997206187422}
-  m_Layer: 8
-  m_Name: Forest (terrain)
+  m_Layer: 14
+  m_Name: Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,8 +73,8 @@ SpriteRenderer:
   m_SortingLayerID: 1615834563
   m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d1d954637d883db43908027847ffd37a, type: 3}
-  m_Color: {r: 0.20024918, g: 0.33962262, b: 0.20412065, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 0acfaa8765e0d0d409a6b2d214eb0ca4, type: 3}
+  m_Color: {r: 0.9137255, g: 0.64705884, b: 0.02745098, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
